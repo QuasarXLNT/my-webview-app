@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Моё приложение</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; text-align: center; }
+    input, button { padding: 10px; margin: 10px; font-size: 16px; }
+    #output { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Локальное приложение</h1>
+  <input type="text" id="textInput" placeholder="Введите текст" />
+  <button onclick="saveData()">Сохранить</button>
+  <button onclick="loadData()">Загрузить</button>
+  <p id="output">Данные появятся здесь</p>
+
+  <script type="module">
+    import { CapacitorSQLite, Capacitor } from '@capacitor/sqlite';
+
+    // Подключаемся к БД
+    const db = await CapacitorSQLite.create({
+      database: 'mydata.db',
+      version: 1
+    });
+
+    async function saveData() {
+      const text = document.getElementById('textInput').value;
+      if (!text) return alert("Введите текст!");
+
+      // Создаём таблицу, если её нет
+      await db.execute({ statement: `
+        CREATE TABLE IF NOT EXISTS notes (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          content TEXT
+        )
+      ` });
+
+      // Сохраняем
+      await db.execute({
+        statement: 'INSERT INTO notes (content) VALUES (?)',
+        values: [text]
+      });
+
+      document.getElementById('textInput').value = '';
+      alert('Сохранено!');
+    }
+
+    async function loadData() {
+      const result = await db.query({ statement: 'SELECT content FROM notes ORDER BY id DESC LIMIT 1' });
+      const output = document.getElementById('output');
+      output.innerText = result.values.length > 0 ? result.values[0].content : 'Нет данных';
+    }
+  </script>
+</body>
+</html>
