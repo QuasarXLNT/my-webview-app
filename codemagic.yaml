@@ -1,17 +1,17 @@
 # codemagic.yaml
 
-scripts:
-  - name: Install dependencies
-    script: |
-      # Устанавливаем зависимости
-      npm install
-
-  - name: Sync Capacitor
-    script: |
-      npx cap sync
-
-  - name: Build APK
-    script: |
-      cd android
-      ./gradlew assembleRelease
-      cd ..
+workflows:
+  app_build:
+    name: Build App
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm install
+      - name: Sync Capacitor
+        script: |
+          npx cap sync
+      - name: Build APK
+        script: |
+          cd android
+          ./gradlew assembleRelease
+          cd ..
