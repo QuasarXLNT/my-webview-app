@@ -1,19 +1,18 @@
 {
   "name": "my-webview-app",
   "version": "1.0.0",
-  "description": "Локальное приложение с HTML + SQLite",
+  "description": "Локальное приложение HTML + SQLite",
   "main": "index.html",
   "scripts": {
     "build": "npx cap build",
     "sync": "npx cap sync",
     "copy": "npx cap copy"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@capacitor/android": "^5.7.0",
-    "@capacitor/cli": "^5.7.0",
-    "@capacitor/core": "^5.7.0",
-    "@capacitor/sqlite": "^5.4.0"
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/cli": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
+    "@capacitor-community/sqlite": "^7.0.1"
   },
   "keywords": [
     "capacitor",
