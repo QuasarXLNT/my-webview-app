@@ -1,0 +1,16 @@
+# codemagic.yaml
+scripts:
+  - name: Install dependencies
+    script: |
+      cd android
+      ./gradlew wrapper --gradle-version=8.0
+      cd ..
+      npm install
+
+  - name: Build app
+    script: |
+      npx cap sync
+      npx cap open android
+      cd android
+      ./gradlew assembleRelease
+      cd ..
